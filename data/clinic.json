@@ -1,0 +1,32 @@
+{
+  "name": "Jitesh Shukla Dental Click",
+  "phone": "+91-7999428295",
+  "email": "frontdesk@example.com",
+  "address": "Wamanrao Deo Marg, Near Dr Sanjay Srivastav, Ramganj Ward, Khandwa, Madhya Pradesh 450001",
+  "city": "Khandwa",
+  "state": "Madhya Pradesh",
+  "postalCode": "450001",
+  "country": "IN",
+  "mapQuery": "Dr Shukla's Dental Clinic Khandwa",
+  "website": "",
+  "whatsapp": "",
+  "hours": {
+    "mon": "10:00–21:00",
+    "tue": "10:00–21:00",
+    "wed": "10:00–21:30",
+    "thu": "10:00–21:30",
+    "fri": "10:00–21:00",
+    "sat": "10:00–21:00",
+    "sun": "10:00–14:00"
+  },
+  "mapplsPin": "hk4hj7",
+  "rating": 4.9,
+  "reviewCount": 135,
+  "links": {
+    "justdialPhotos": "https://www.justdial.com/Khandwa/Dr-Shuklas-Dental-Clinic-Near-Shreemali-HospitalNear-Dr-Satish-Skin-Clinic-Khandwa-HO/9999P7332-7332-170930235205-G9N9_BZDET/photos",
+    "mappls": "https://www.mappls.com/place-dr+shukla's+dental+clinic-wamanrao+deo+marg-near+dr+sanjay+srivastav-ramganj+ward-khandwa-madhya+pradesh-450001-hk4hj7@zdata=MjEuODI3ODM1Kzc2LjM0OTY2MysxNytoazRoajcrKw==ed",
+    "dentee": "https://www.dentee.com/clinic/khandwa/dr-shukla-dental-clinic/5269fea0-6343-4aa7-a443-23d4be0a885f",
+    "directory": "https://khandwa.idbf.in/248308/dr-shukla-s-dental-clinic",
+    "instagram": "https://www.instagram.com/reel/DKZL3DNiAuj/"
+  }
+}

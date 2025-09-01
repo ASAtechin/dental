@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "checkup-cleaning",
+    "category": "Preventive",
+    "title": "Checkup & Cleaning",
+    "icon": "🪥",
+    "summary": "Comprehensive exam, gentle cleaning, and low‑dose digital X‑rays.",
+    "image": "https://images.unsplash.com/photo-1588771930296-88c2cb03f1b3?q=80&w=1200&auto=format&fit=crop",
+    "duration": "45–60 min",
+    "painLevel": "None to mild",
+    "recovery": "Immediate",
+    "costRange": "$80–$150",
+    "steps": [
+      "Medical history review and smile goals",
+      "Digital X‑rays as needed (ultra low‑dose)",
+      "Plaque and tartar removal",
+      "Polish and fluoride (optional)",
+      "Personalized hygiene tips"
+    ],
+    "details": "Regular checkups prevent small issues from becoming big treatments. Our hygienists use gentle techniques and modern tools for a comfortable visit."
+  },
+  {
+    "slug": "tooth-colored-filling",
+    "category": "Restorative",
+    "title": "Tooth‑Colored Filling",
+    "icon": "🦷",
+    "summary": "Natural‑looking composite filling to repair small cavities.",
+    "image": "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1200&auto=format&fit=crop",
+    "duration": "30–45 min",
+    "painLevel": "Numbed, minimal discomfort",
+    "recovery": "Same day",
+    "costRange": "$120–$280",
+    "steps": [
+      "Local anesthetic for comfort",
+      "Gentle decay removal",
+      "Adhesive bonding and layering",
+      "Shaping and bite check",
+      "Polish for a natural finish"
+    ],
+    "details": "Composite fillings match your tooth shade and bond chemically, preserving more healthy enamel than metal fillings."
+  },
+  {
+    "slug": "root-canal",
+    "category": "Endodontics",
+    "title": "Root Canal Therapy",
+    "icon": "🧪",
+    "summary": "Relieves pain by treating inflamed or infected tooth pulp.",
+    "image": "https://images.unsplash.com/photo-1581594693700-89e55f3d18c1?q=80&w=1200&auto=format&fit=crop",
+    "duration": "60–90 min",
+    "painLevel": "Numbed, pressure only",
+    "recovery": "24–48 hrs",
+    "costRange": "$600–$1100",
+    "steps": [
+      "Comfort anesthesia and isolation",
+      "Clean and shape canals",
+      "Disinfect and seal",
+      "Temporary or permanent restoration",
+      "Follow‑up for crown if needed"
+    ],
+    "details": "Modern root canals are comfortable and predictable. They save your natural tooth and stop infection."
+  },
+  {
+    "slug": "teeth-whitening",
+    "category": "Cosmetic",
+    "title": "Professional Whitening",
+    "icon": "✨",
+    "summary": "Safely brightens teeth by multiple shades under dentist guidance.",
+    "image": "https://images.unsplash.com/photo-1515387784663-e2cafd2e9e66?q=80&w=1200&auto=format&fit=crop",
+    "duration": "45–75 min",
+    "painLevel": "Mild sensitivity possible",
+    "recovery": "Immediate",
+    "costRange": "$250–$450",
+    "steps": [
+      "Shade match and photos",
+      "Soft‑tissue protection",
+      "Whitening gel cycles",
+      "Sensitivity rinse and after‑care",
+      "Optional take‑home kit"
+    ],
+    "details": "Dentist‑supervised whitening maximizes results while protecting enamel and gums."
+  },
+  {
+    "slug": "dental-implant",
+    "category": "Implants",
+    "title": "Dental Implant",
+    "icon": "⚙️",
+    "summary": "Replaces a missing tooth root with a titanium post and crown.",
+    "image": "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200&auto=format&fit=crop",
+    "duration": "2–3 visits",
+    "painLevel": "Numbed, mild soreness",
+    "recovery": "3–7 days per stage",
+    "costRange": "$2200–$3800",
+    "steps": [
+      "3D scan and planning",
+      "Guided implant placement",
+      "Healing period (osseointegration)",
+      "Impression/scan",
+      "Custom crown attachment"
+    ],
+    "details": "Implants are the gold standard for replacing missing teeth—stable, natural‑looking, and long‑lasting."
+  },
+  {
+    "slug": "clear-aligners",
+    "category": "Orthodontics",
+    "title": "Clear Aligners",
+    "icon": "🧩",
+    "summary": "Nearly invisible trays to straighten teeth comfortably.",
+    "image": "https://images.unsplash.com/photo-1598257006458-087169a1d44c?q=80&w=1200&auto=format&fit=crop",
+    "duration": "6–18 months",
+    "painLevel": "Mild pressure",
+    "recovery": "Ongoing",
+    "costRange": "$2500–$4500",
+    "steps": [
+      "Digital scan and smile simulation",
+      "Custom aligner series",
+      "Progress checks every 6–8 weeks",
+      "Refinements as needed",
+      "Retainers to maintain results"
+    ],
+    "details": "Aligners fit your lifestyle—remove to eat, brush, and for special moments."
+  }
+]
