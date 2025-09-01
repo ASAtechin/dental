@@ -455,6 +455,17 @@ if (aura) {
       footerHours.textContent = `${monFri} · ${sat}${sun}`;
     }
 
+    // Update hero rating stat from data
+    const ratingNum = document.querySelector('.stats .stat:nth-child(2) .num');
+    const ratingLabel = document.querySelector('.stats .stat:nth-child(2) .label');
+    if (ratingNum && typeof data.rating === 'number') {
+      ratingNum.dataset.target = String(data.rating);
+      ratingNum.textContent = Number(data.rating).toFixed(1);
+    }
+    if (ratingLabel && typeof data.reviewCount === 'number') {
+      ratingLabel.textContent = `Rating on ${data.reviewCount}+ reviews`;
+    }
+
     // JSON-LD update
     const ld = document.querySelector('script[type="application/ld+json"]');
     if (ld) {
@@ -482,7 +493,7 @@ if (aura) {
     const photos = await res.json();
     photos.forEach((p, idx) => {
       const cell = document.createElement('figure'); cell.className = 'cell'; cell.setAttribute('data-idx', String(idx));
-      cell.innerHTML = `<img src="${p.src}" alt="${p.alt||'Clinic photo'}"><figcaption class="cap">${p.alt||''}</figcaption>`;
+      cell.innerHTML = `<img loading="lazy" decoding="async" sizes="(max-width:700px) 50vw, (max-width:1000px) 33vw, 25vw" src="${p.src}" alt="${p.alt||'Clinic photo'}"><figcaption class="cap">${p.alt||''}</figcaption>`;
       grid.appendChild(cell);
     });
     const modal = document.getElementById('lightbox');
@@ -503,4 +514,41 @@ if (aura) {
   } catch (e) {
     console.warn('Gallery not loaded', e);
   }
+})();
+
+// Floating quick actions (Call, WhatsApp, Directions, Top)
+(async function floatingActions(){
+  const root = document.getElementById('floating-cta');
+  if (!root) return;
+  try {
+    const res = await fetch('data/clinic.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+
+    const phoneRaw = String(data.phone || '').replace(/\s+/g,'');
+    const telHref = phoneRaw ? `tel:${phoneRaw}` : '';
+    const waNumber = String(data.whatsapp || phoneRaw).replace(/[^\d]/g,'');
+    const waHref = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello! I would like to book an appointment.')}` : '';
+    const mapHref = `https://maps.google.com/?q=${encodeURIComponent(data.mapQuery || data.name || 'Dental Clinic')}`;
+
+    root.innerHTML = '';
+    function add(link, label, cls, emoji){
+      if (!link) return;
+      const a = document.createElement('a');
+      a.href = link; a.className = `fab ${cls||''}`; a.setAttribute('aria-label', label); a.title = label; a.innerText = emoji; a.rel = 'noopener'; a.target = link.startsWith('http') ? '_blank' : '';
+      root.appendChild(a);
+    }
+    add(telHref, 'Call clinic', 'fab--primary', '📞');
+    add(waHref, 'Chat on WhatsApp', '', '💬');
+    add(mapHref, 'Get directions', '', '🗺️');
+
+    // Back to top button
+    const topBtn = document.createElement('button');
+    topBtn.type = 'button'; topBtn.className = 'fab'; topBtn.setAttribute('aria-label','Back to top'); topBtn.title = 'Back to top'; topBtn.textContent = '↑';
+    topBtn.style.display = 'none';
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    root.appendChild(topBtn);
+    const toggleTop = () => { topBtn.style.display = window.scrollY > 600 ? '' : 'none'; };
+    window.addEventListener('scroll', toggleTop, { passive: true }); toggleTop();
+  } catch {}
 })();

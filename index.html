@@ -9,6 +9,12 @@
   <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="script.js" as="script" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:title" content="Jitesh Shukla Dental Click" />
+  <meta property="og:description" content="Modern dental care in Khandwa. Book online, view procedures, and explore our clinic gallery." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://asatechin.github.io/dental/" />
+  <meta name="twitter:card" content="summary_large_image" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -19,6 +25,7 @@
   </script>
 </head>
 <body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">Skip to content</a>
   <div id="scroll-progress" aria-hidden="true"></div>
 
@@ -313,7 +320,42 @@
 
   <div class="cursor-aura" aria-hidden="true"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="script.js" defer></script>
+  <script>
+    // Ensure Three.js is loaded before running this
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof THREE === 'undefined') return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector('#bg-canvas'),
+        alpha: true,
+      });
+
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.position.setZ(20);
+
+      const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+      const material = new THREE.PointsMaterial({
+        size: 0.02,
+        color: 0x87ceeb, // A nice sky blue color
+      });
+      const torus = new THREE.Points(geometry, material);
+      scene.add(torus);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        torus.rotation.x += 0.001;
+        torus.rotation.y += 0.0005;
+        torus.rotation.z += 0.001;
+        renderer.render(scene, camera);
+      }
+      animate();
+    });
+  </script>
 
   <!-- Procedure modal -->
   <div id="proc-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="proc-title" hidden>
@@ -360,5 +402,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Floating actions (rendered by JS) -->
+  <div id="floating-cta" aria-label="Quick actions"></div>
 </body>
 </html>
