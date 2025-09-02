@@ -1,42 +1,42 @@
 [
   {
-    "src": "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/interior.jpg",
     "alt": "Bright dental clinic interior with modern chair",
-    "source": "Unsplash"
+    "source": "Local"
   },
   {
-    "src": "https://images.unsplash.com/photo-1588771930296-88c2cb03f1b3?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/checkup.jpg",
     "alt": "Dentist doing a routine checkup",
-    "source": "Unsplash"
+    "source": "Local"
   },
   {
-    "src": "https://images.unsplash.com/photo-1588774062293-3b11f7cd42dc?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/tools.jpg",
     "alt": "Dental tools neatly arranged",
-    "source": "Unsplash"
+    "source": "Local"
   },
   {
-    "src": "https://images.unsplash.com/photo-1629904853893-18f880fbbd28?q=80&w=1200&auto=format&fit=crop",
-    "alt": "Smiling patient in a clinic",
-    "source": "Unsplash"
-  },
-  {
-    "src": "https://images.unsplash.com/photo-1598257006458-087169a1d44c?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/aligners.jpg",
     "alt": "Clear aligners close up",
-    "source": "Unsplash"
+    "source": "Local"
   },
   {
-    "src": "https://images.unsplash.com/photo-1581594693700-89e55f3d18c1?q=80&w=1200&auto=format&fit=crop",
-    "alt": "Endodontic treatment setup",
-    "source": "Unsplash"
-  },
-  {
-    "src": "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/implant.jpg",
     "alt": "Dental implant components",
-    "source": "Unsplash"
+    "source": "Local"
   },
   {
-    "src": "https://images.unsplash.com/photo-1515387784663-e2cafd2e9e66?q=80&w=1200&auto=format&fit=crop",
+    "src": "assets/img/whitening.jpg",
     "alt": "Close-up of white healthy teeth",
-    "source": "Unsplash"
+    "source": "Local"
+  },
+  {
+    "src": "assets/img/filling.jpg",
+    "alt": "Composite filling setup",
+    "source": "Local"
+  },
+  {
+    "src": "assets/img/rootcanal.jpg",
+    "alt": "Endodontic treatment setup",
+    "source": "Local"
   }
 ]
