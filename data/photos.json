@@ -1,21 +1,21 @@
 [
   {
-    "src": "assets/img/interior.jpg",
+    "src": "assets/img/interior.svg",
     "alt": "Bright dental clinic interior with modern chair",
     "source": "Local"
   },
   {
-    "src": "assets/img/checkup.jpg",
+    "src": "assets/img/checkup.svg",
     "alt": "Dentist doing a routine checkup",
     "source": "Local"
   },
   {
-    "src": "assets/img/tools.jpg",
+    "src": "assets/img/tools.svg",
     "alt": "Dental tools neatly arranged",
     "source": "Local"
   },
   {
-    "src": "assets/img/aligners.jpg",
+    "src": "assets/img/aligners.svg",
     "alt": "Clear aligners close up",
     "source": "Local"
   },
@@ -25,7 +25,7 @@
     "source": "Local"
   },
   {
-    "src": "assets/img/whitening.jpg",
+    "src": "assets/img/whitening.svg",
     "alt": "Close-up of white healthy teeth",
     "source": "Local"
   },
@@ -35,7 +35,7 @@
     "source": "Local"
   },
   {
-    "src": "assets/img/rootcanal.jpg",
+    "src": "assets/img/rootcanal.svg",
     "alt": "Endodontic treatment setup",
     "source": "Local"
   }
