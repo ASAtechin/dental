@@ -6,10 +6,14 @@
   <title>Jitesh Shukla Dental Click — Modern Care, Beautiful Smiles</title>
   <meta name="description" content="Modern dental clinic with cutting‑edge care. Book online, see services, and explore patient stories." />
   <meta name="theme-color" content="#0ea5e9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="preload" href="styles.css" as="style" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=1.2" />
   <link rel="preload" href="script.js" as="script" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css" />
   <meta property="og:title" content="Jitesh Shukla Dental Click" />
   <meta property="og:description" content="Modern dental care in Khandwa. Book online, view procedures, and explore our clinic gallery." />
   <meta property="og:type" content="website" />
@@ -29,7 +33,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <div id="scroll-progress" aria-hidden="true"></div>
 
-  <header class="site-header" data-reveal>
+  <header class="site-header" data-reveal style="position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); width: min(1200px, 96%); z-index: 50;">
     <div class="container nav">
       <a class="logo" href="#" aria-label="Jitesh Shukla Dental Click home">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -188,8 +192,14 @@
           <h2>Dental videos</h2>
           <p>Quick educational clips and behind‑the‑scenes looks.</p>
         </header>
-        <div id="video-grid" class="video-grid" aria-live="polite">
+        <div class="video-controls" data-reveal>
+          <button id="video-expand" class="btn btn-ghost">View all videos</button>
+        </div>
+        <div id="video-carousel" class="video-carousel" aria-live="polite">
           <!-- filled by JS -->
+        </div>
+        <div id="video-grid" class="video-grid hidden" aria-live="polite">
+          <!-- filled by JS when expanded -->
         </div>
       </div>
     </section>
@@ -243,38 +253,58 @@
     <section id="contact" class="section contact">
       <div class="container">
         <header class="section-head" data-reveal>
-          <h2>Contact us</h2>
-          <p>Questions or ready to book? Call, message, or send a request—our team responds fast.</p>
+          <h2>Book your visit</h2>
+          <p>Get in touch today to schedule your appointment and start your journey to a healthier smile.</p>
         </header>
         <div class="contact-grid">
           <div class="contact-card" data-reveal>
-            <h3>Visit the clinic</h3>
-            <p>123 Smile St, Suite 200, Your City</p>
-            <div class="map-wrap">
-              <iframe title="Map to clinic" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
-                src="https://www.google.com/maps?q=Jitesh%20Shukla%20Dental%20Click&output=embed"></iframe>
-            </div>
-            <p>
-              <a class="btn btn-ghost" href="https://maps.google.com/?q=Jitesh%20Shukla%20Dental%20Click" target="_blank" rel="noopener">Open in Maps</a>
+            <h3>Contact Information</h3>
+            <address class="contact">
+              <a href="tel:+15551234567">+1 (555) 123-4567</a>
+              <a href="mailto:hello@dentalclick.com">hello@dentalclick.com</a>
+              <p class="muted">123 Dental Ave, Khandwa, India</p>
+            </address>
+            <h3 style="margin-top: 1.5rem;">Hours</h3>
+            <p class="muted">
+              Mon–Fri: 8am – 8pm<br>
+              Sat–Sun: 9am – 5pm
             </p>
+            <div class="map-wrap" style="margin-top: 1.5rem;">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.181524585997!2d76.3487639153426!3d21.82103898559637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd81968d44a5555%3A0x3b4a4b8d4d4a4b8d!2sKhandwa%2C%20Madhya%20Pradesh%2C%20India!5e0!3m2!1sen!2sus!4v1630500000000!5m2!1sen!2sus" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
           </div>
-          <form id="contact-form" class="contact-form" novalidate data-reveal>
-            <h3>Send a request</h3>
-            <div class="row">
-              <label>Full name<input name="name" required placeholder="Your full name" /></label>
-              <label>Phone<input name="phone" required placeholder="(555) 000‑0000" /></label>
+          <form id="book" class="contact-form" data-reveal>
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required>
             </div>
-            <div class="row">
-              <label>Email<input type="email" name="email" required placeholder="you@example.com" /></label>
-              <label>Procedure<select name="procedure" id="contact-procedure"><option value="">Select a procedure</option></select></label>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required>
             </div>
-            <label>Message<textarea name="message" rows="4" placeholder="Tell us about your goals or symptoms..."></textarea></label>
-            <div class="row">
-              <button class="btn btn-primary" type="submit">Request callback</button>
-              <a class="btn" href="tel:+15551234567">Call now</a>
-              <a class="btn" href="mailto:frontdesk@example.com?subject=Appointment%20Request%20-%20Jitesh%20Shukla%20Dental%20Click">Email us</a>
+            <div class="form-group row">
+              <div class="form-group">
+                <label for="service">Service</label>
+                <select id="service" name="service">
+                  <option>General Checkup</option>
+                  <option>Teeth Whitening</option>
+                  <option>Dental Implant</option>
+                  <option>Invisalign</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date">
+              </div>
             </div>
-            <p class="muted">We typically respond within 10 minutes during business hours.</p>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Request Appointment
+              <span class="btn-shine" aria-hidden="true"></span>
+            </button>
           </form>
         </div>
       </div>
@@ -298,36 +328,91 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <a class="logo" href="#" aria-label="Jitesh Shukla Dental Click home">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 2c3 0 7 2 7 7 0 5-3 11-7 13-4-2-7-8-7-13 0-5 4-7 7-7Z" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-          <span>Jitesh Shukla Dental Click</span>
-        </a>
-        <p class="muted">© <span id="year"></span> Jitesh Shukla Dental Click. All rights reserved.</p>
-        <address class="contact">
-          <a href="tel:+15551234567">Call (555) 123‑4567</a><br />
-          <a href="https://maps.google.com/?q=Jitesh%20Shukla%20Dental%20Click" target="_blank" rel="noopener">123 Smile St, Suite 200 · Your City</a><br />
-          <span class="muted">Mon–Fri 8am–7pm · Sat 9am–3pm</span>
-        </address>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <a class="logo" href="#" aria-label="Jitesh Shukla Dental Click home">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2c3 0 7 2 7 7 0 5-3 11-7 13-4-2-7-8-7-13 0-5 4-7 7-7Z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M9 9c.6-1.5 2.4-1.5 3 0 .6 1.5 2.4 1.5 3 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span>Jitesh Shukla Dental Click</span>
+            </a>
+            <p class="muted">Modern dental care, designed around you. Your healthiest smile starts here.</p>
+          </div>
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <nav aria-label="Footer">
+              <a href="#services">Services</a>
+              <a href="#procedures">Procedures</a>
+              <a href="#gallery">Gallery</a>
+              <a href="#videos">Videos</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-column">
+            <h3>Contact Us</h3>
+            <address class="contact">
+              <a href="tel:+15551234567">+1 (555) 123-4567</a>
+              <a href="mailto:hello@dentalclick.com">hello@dentalclick.com</a>
+              <p class="muted">123 Dental Ave, Khandwa, India</p>
+            </address>
+          </div>
+          <div class="footer-column">
+            <h3>Hours</h3>
+            <p class="muted">
+              Mon–Fri: 8am – 8pm<br>
+              Sat–Sun: 9am – 5pm
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="year"></span> Jitesh Shukla Dental Click. All Rights Reserved.</p>
+        </div>
       </div>
-      <nav aria-label="Footer">
-        <a href="#services">Services</a>
-        <a href="#procedures">Procedures</a>
-        <a href="#insurance">Insurance</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#videos">Videos</a>
-        <a href="#stories">Stories</a>
-        <a href="#faq">FAQ</a>
-        <a href="#book">Book</a>
-      </nav>
-    </div>
-  </footer>
+    </footer>
 
-  <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+  </main>
+
+  <div id="lightbox" class="modal" hidden>
+    <div class="modal-backdrop" role="button" tabindex="0"></div>
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Close dialog">&times;</button>
+      <div class="modal-body">
+        <img src="" alt="">
+        <div class="cap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="proc-modal" class="modal" hidden>
+    <div class="modal-backdrop" role="button" tabindex="0"></div>
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Close dialog">&times;</button>
+      <div class="modal-body">
+        <!-- content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div id="floating-cta">
+    <a href="#book" class="fab fab--primary" aria-label="Book appointment">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+    </a>
+    <button class="fab theme-toggle" aria-label="Toggle theme">
+      <svg class="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      <svg class="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+  </div>
+
+  <div class="cursor-aura" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>  <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
     <span class="sun" aria-hidden="true">☀️</span>
     <span class="moon" aria-hidden="true">🌙</span>
   </button>
@@ -335,6 +420,7 @@
   <div class="cursor-aura" aria-hidden="true"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.js"></script>
   <script src="script.js" defer></script>
   <script>
     // Ensure Three.js is loaded before running this

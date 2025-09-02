@@ -570,57 +570,152 @@ if (aura) {
 
 // Videos loader and player
 (async function videos(){
+  const carousel = document.getElementById('video-carousel');
   const grid = document.getElementById('video-grid');
-  if (!grid) return;
+  const expandBtn = document.getElementById('video-expand');
+  if (!carousel || !grid) return;
+  
+  // Wait for lite-youtube to be available
+  await new Promise(resolve => {
+    if (window.customElements && window.customElements.get('lite-youtube')) {
+      resolve();
+    } else {
+      window.addEventListener('DOMContentLoaded', resolve);
+      setTimeout(resolve, 500); // fallback
+    }
+  });
+  
+  let isExpanded = false;
+  let vids = [];
+
   try {
     const res = await fetch('data/videos.json', { cache: 'no-store' });
     if (!res.ok) return;
-    const vids = await res.json();
+    vids = await res.json();
 
-    vids.forEach((v, idx) => {
+    function createVideoCard(v, idx) {
       const card = document.createElement('article');
       card.className = 'video-card';
-      card.innerHTML = `
-        <div class="thumb" data-idx="${idx}">
-          <video preload="none" playsinline muted poster="${v.poster}">
-            <source src="${v.src}" type="video/mp4" />
-          </video>
-          <button class="play" type="button" aria-label="Play video">▶︎ Play</button>
-        </div>
+      const body = `
         <div class="body">
           <h3>${v.title}</h3>
           <div class="meta">${v.duration || ''} ${v.caption ? '· ' + v.caption : ''}</div>
         </div>`;
-      grid.appendChild(card);
+
+      if (v.youtubeId) {
+        card.innerHTML = `
+          <div class="thumb" data-idx="${idx}">
+            <lite-youtube videoid="${v.youtubeId}" playlabel="Play: ${v.title}"></lite-youtube>
+          </div>
+          ${body}`;
+      } else {
+        card.innerHTML = `
+          <div class="thumb" data-idx="${idx}">
+            <video preload="none" playsinline muted ${v.poster ? `poster="${v.poster}"` : ''}>
+              ${v.src ? `<source src="${v.src}" type="video/mp4" />` : ''}
+            </video>
+            <button class="play" type="button" aria-label="Play video">▶︎ Play</button>
+          </div>
+          ${body}`;
+      }
+      return card;
+    }
+
+    // Initially show first 3 videos in carousel
+    vids.slice(0, 3).forEach((v, idx) => {
+      carousel.appendChild(createVideoCard(v, idx));
     });
 
-    function attachHoverGlow(container){
-      container.addEventListener('mousemove', (e) => {
-        const r = container.getBoundingClientRect();
-        const mx = ((e.clientX - r.left)/r.width)*100; const my = ((e.clientY - r.top)/r.height)*100;
-        container.style.setProperty('--mx', mx+'%');
-        container.style.setProperty('--my', my+'%');
+    // Expand/collapse functionality
+    if (expandBtn) {
+      expandBtn.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        if (isExpanded) {
+          // Show all videos in grid
+          grid.innerHTML = '';
+          vids.forEach((v, idx) => {
+            grid.appendChild(createVideoCard(v, idx));
+          });
+          grid.classList.remove('hidden');
+          carousel.style.display = 'none';
+          expandBtn.textContent = 'Show less';
+        } else {
+          // Show carousel with first 3
+          carousel.style.display = '';
+          grid.classList.add('hidden');
+          expandBtn.textContent = 'View all videos';
+        }
+        attachVideoEvents();
       });
     }
 
-    grid.querySelectorAll('.video-card').forEach(attachHoverGlow);
+    function attachVideoEvents() {
+      const activeContainer = isExpanded ? grid : carousel;
+      
+      function attachHoverGlow(container){
+        container.addEventListener('mousemove', (e) => {
+          const card = e.target.closest('.video-card');
+          if (!card) return;
+          const r = card.getBoundingClientRect();
+          const mx = ((e.clientX - r.left)/r.width)*100; 
+          const my = ((e.clientY - r.top)/r.height)*100;
+          card.style.setProperty('--mx', mx+'%');
+          card.style.setProperty('--my', my+'%');
+        });
+      }
 
-    // Play/pause toggle on click of play button or video
-    grid.addEventListener('click', (e) => {
-      const btn = e.target.closest('.play');
-      const thumb = btn ? btn.parentElement : e.target.closest('.thumb');
-      if (!thumb) return;
-      const video = thumb.querySelector('video');
-      if (!video) return;
-      if (video.paused) { video.play().catch(()=>{}); btn && (btn.textContent='❚❚ Pause'); }
-      else { video.pause(); btn && (btn.textContent='▶︎ Play'); }
+      activeContainer.querySelectorAll('.video-card').forEach(card => {
+        attachHoverGlow(card.parentElement);
+      });
+
+      // Synchronize videos: pause all others when one starts playing
+      activeContainer.addEventListener('play', (e) => {
+        if (e.target.tagName !== 'VIDEO') return;
+        // Pause other HTML5 videos
+        document.querySelectorAll('#video-carousel video, #video-grid video').forEach(v => { 
+          if (v !== e.target) v.pause(); 
+        });
+        // Pause all YouTube videos
+        document.querySelectorAll('#video-carousel lite-youtube, #video-grid lite-youtube').forEach(yt => {
+          if (yt.shadowRoot && yt.shadowRoot.querySelector('iframe')) {
+            try {
+              yt.shadowRoot.querySelector('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } catch {}
+          }
+        });
+      }, true);
+
+      // YouTube video synchronization
+      activeContainer.addEventListener('click', (e) => {
+        const liteYt = e.target.closest('lite-youtube');
+        if (!liteYt) return;
+        
+        setTimeout(() => {
+          document.querySelectorAll('#video-carousel video, #video-grid video').forEach(v => v.pause());
+          document.querySelectorAll('#video-carousel lite-youtube, #video-grid lite-youtube').forEach(yt => {
+            if (yt !== liteYt && yt.shadowRoot && yt.shadowRoot.querySelector('iframe')) {
+              try {
+                yt.shadowRoot.querySelector('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+              } catch {}
+            }
+          });
+        }, 100);
+      });
+    }
+
+    // Initial event attachment
+    attachVideoEvents();
+
+    // Global YouTube message listener
+    window.addEventListener('message', (event) => {
+      if (event.origin !== 'https://www.youtube.com') return;
+      try {
+        const data = JSON.parse(event.data);
+        if (data.event === 'video-progress' || (data.info && data.info.playerState === 1)) {
+          document.querySelectorAll('#video-carousel video, #video-grid video').forEach(v => v.pause());
+        }
+      } catch {}
     });
-
-    // Pause other videos when one plays
-    grid.addEventListener('play', (e) => {
-      if (e.target.tagName !== 'VIDEO') return;
-      grid.querySelectorAll('video').forEach(v => { if (v !== e.target) v.pause(); });
-    }, true);
 
   } catch (e) {
     console.warn('Videos not loaded', e);
