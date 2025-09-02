@@ -516,6 +516,21 @@ if (aura) {
   }
 })();
 
+// Dynamic background glow for gallery cells
+(function glowGallery(){
+  const grid = document.getElementById('gallery-grid');
+  if (!grid) return;
+  const onMove = (e) => {
+    const cell = e.target.closest('.cell');
+    if (!cell) return;
+    const r = cell.getBoundingClientRect();
+    const mx = ((e.clientX - r.left)/r.width)*100; const my = ((e.clientY - r.top)/r.height)*100;
+    cell.style.setProperty('--mx', mx+'%');
+    cell.style.setProperty('--my', my+'%');
+  };
+  grid.addEventListener('mousemove', onMove, { passive: true });
+})();
+
 // Floating quick actions (Call, WhatsApp, Directions, Top)
 (async function floatingActions(){
   const root = document.getElementById('floating-cta');
@@ -551,4 +566,63 @@ if (aura) {
     const toggleTop = () => { topBtn.style.display = window.scrollY > 600 ? '' : 'none'; };
     window.addEventListener('scroll', toggleTop, { passive: true }); toggleTop();
   } catch {}
+})();
+
+// Videos loader and player
+(async function videos(){
+  const grid = document.getElementById('video-grid');
+  if (!grid) return;
+  try {
+    const res = await fetch('data/videos.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const vids = await res.json();
+
+    vids.forEach((v, idx) => {
+      const card = document.createElement('article');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="thumb" data-idx="${idx}">
+          <video preload="none" playsinline muted poster="${v.poster}">
+            <source src="${v.src}" type="video/mp4" />
+          </video>
+          <button class="play" type="button" aria-label="Play video">▶︎ Play</button>
+        </div>
+        <div class="body">
+          <h3>${v.title}</h3>
+          <div class="meta">${v.duration || ''} ${v.caption ? '· ' + v.caption : ''}</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    function attachHoverGlow(container){
+      container.addEventListener('mousemove', (e) => {
+        const r = container.getBoundingClientRect();
+        const mx = ((e.clientX - r.left)/r.width)*100; const my = ((e.clientY - r.top)/r.height)*100;
+        container.style.setProperty('--mx', mx+'%');
+        container.style.setProperty('--my', my+'%');
+      });
+    }
+
+    grid.querySelectorAll('.video-card').forEach(attachHoverGlow);
+
+    // Play/pause toggle on click of play button or video
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.play');
+      const thumb = btn ? btn.parentElement : e.target.closest('.thumb');
+      if (!thumb) return;
+      const video = thumb.querySelector('video');
+      if (!video) return;
+      if (video.paused) { video.play().catch(()=>{}); btn && (btn.textContent='❚❚ Pause'); }
+      else { video.pause(); btn && (btn.textContent='▶︎ Play'); }
+    });
+
+    // Pause other videos when one plays
+    grid.addEventListener('play', (e) => {
+      if (e.target.tagName !== 'VIDEO') return;
+      grid.querySelectorAll('video').forEach(v => { if (v !== e.target) v.pause(); });
+    }, true);
+
+  } catch (e) {
+    console.warn('Videos not loaded', e);
+  }
 })();

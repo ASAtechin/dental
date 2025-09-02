@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Welcome to our clinic",
+    "src": "assets/video/clinic-tour.mp4",
+    "poster": "assets/img/interior.svg",
+    "duration": "0:42",
+    "caption": "A quick tour of our modern, comfortable clinic."
+  },
+  {
+    "title": "What happens in a checkup?",
+    "src": "assets/video/checkup.mp4",
+    "poster": "assets/img/checkup.svg",
+    "duration": "1:05",
+    "caption": "Your first visit walkthrough and what to expect."
+  },
+  {
+    "title": "Teeth whitening overview",
+    "src": "assets/video/whitening.mp4",
+    "poster": "assets/img/whitening.svg",
+    "duration": "0:58",
+    "caption": "Dentist‑guided whitening steps and after‑care."
+  }
+]
